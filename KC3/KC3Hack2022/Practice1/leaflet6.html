@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet_Tutrial_404.html 2019/4/26   by T. Fujita</title>
+    <meta charset = "utf-8" />
+    <link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel = "stylesheet" href = "./Plugins/ms-Dropdown-master/css/msdropdown/dd.css" />
+    <link rel = "stylesheet" href = "./CSS/scroll_menu.css" />
+    <link rel = "stylesheet" href = "./CSS/Original_Style_404.css" />
+
+<style>
+    html, body {
+    width: 99%;
+    height: 98%;
+    font-size: 14px;
+    z-index: 0;
+    }
+</style>
+
+    <script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src = "./Plugins/ms-Dropdown-master/js/lib/dd.js"></script>
+    <script src = "./JS/Dialog_404.js" ></script>
+    <script>
+    var Marker_LAT = new Array();
+    var Marker_LON = new Array();
+    var Marker_NAM = new Array();
+    var Marker_LNK = new Array();
+    var Marker_ICN = new Array();
+    var Marker_ID = new Array();
+    var Marker_Drag_flag = new Array();
+    var Marker_Drag_info = new Array();
+    var ClickLat = null;
+    var ClickLon = null;
+    var Marker_count = 0;
+    var Marker_ID_count = 0;
+    var SelectedID;
+    var Marker_flag = 0;
+    var Temp_shape, Temp_shape_clone;
+    var Temp, Temp_LAT, Temp_LON, Temp_NAM, Temp_LNK, Temp_ICN, Temp_ID;
+    var Temp_Drag_flag, Temp_Drag_info;
+    var Layer_404 = new Array();
+    var Layer_404_clone = new Array();
+    var Dialog_flag_001 = 0;
+    var map_404;
+
+    function init() {
+        map_404 = L.map('map_404').setView([35.0, 137.0], 6);
+        mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; ' + mapLink,
+            maxZoom: 18
+            }).addTo(map_404);
+        map_404.on('click', function(e) {
+            ClickLat = e.latlng.lat;
+            ClickLon = e.latlng.lng;
+            if ( Marker_flag == 1 ) { Leaflet_Marker_401(); }
+            if ( Marker_flag == 2 ) { Leaflet_Marker_403(); }
+        });
+    }
+
+    function Leaflet_Marker_400() {     // 初期設定（マーカー単独設置）
+        ClickLat = null;
+        ClickLon = null;
+        Marker_flag = 1;
+    }
+
+    function Leaflet_Marker_401() {     // マーカー単独設置
+      if(Marker_flag == 1) {
+        Marker_LAT[ Marker_count ] = ClickLat;
+        Marker_LON[ Marker_count ] = ClickLon;
+        Marker_NAM[ Marker_count ] = Set_Text;
+        Marker_LNK[ Marker_count ] = " ";
+        Marker_ICN[ Marker_count ] = L.icon({
+            iconUrl: Icon_Url,
+            iconSize: [Icon_W, Icon_H],
+            iconAnchor : [Icon_AW, Icon_AH],
+            popupAnchor: [Icon_PW, Icon_PH]
+        });
+        Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+        Marker_Drag_flag[ Marker_count ] = true;
+        Marker_Drag_info[ Marker_count ] = "マウスで移動出来ます。";
+        Temp = Marker_count;
+        Marker_setting();
+        Marker_set();
+        Layer_404[ Temp ] = Temp_shape;
+        Layer_404[ Temp ].addTo(map_404);
+        Layer_404_clone[ Temp ] = Temp_shape_clone;
+        Layer_404_clone[ Temp ].addTo(map_404);
+        Marker_count = Marker_count + 1;
+        Marker_ID_count = Marker_ID_count + 1;
+        Marker_flag = 0;
+        }
+    }
+
+    function Leaflet_Marker_402() {     // 初期設定（マーカー連続設置）
+        ClickLat = null;
+        ClickLon = null;
+        Marker_flag = 2;
+    }
+
+    function Leaflet_Marker_403() {     // マーカー連続設置
+      if(Marker_flag == 2) {
+        Marker_LAT[ Marker_count ] = ClickLat;
+        Marker_LON[ Marker_count ] = ClickLon;
+        Marker_NAM[ Marker_count ] = Set_Text;
+        Marker_LNK[ Marker_count ] = " ";
+        Marker_ICN[ Marker_count ] = L.icon({
+            iconUrl: Icon_Url,
+            iconSize: [Icon_W, Icon_H],
+            iconAnchor : [Icon_AW, Icon_AH],
+            popupAnchor: [Icon_PW, Icon_PH]
+        });
+        Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+        Marker_Drag_flag[ Marker_count ] = true;
+        Marker_Drag_info[ Marker_count ] = "マウスで移動出来ます。";
+        Temp = Marker_count;
+        Marker_setting();
+        Marker_set();
+        Layer_404[ Temp ] = Temp_shape;
+        Layer_404[ Temp ].addTo(map_404);
+        Layer_404_clone[ Temp ] = Temp_shape_clone;
+        Layer_404_clone[ Temp ].addTo(map_404);
+        Marker_count = Marker_count + 1;
+        Marker_ID_count = Marker_ID_count + 1;
+        }
+    }
+
+    function Leaflet_Marker_404() {     // マーカー連続設置終了
+        Marker_flag = 0;
+    }
+
+    function Leaflet_Marker_405() {     // マーカー全消去
+        var j = Layer_404.length - 1;
+        for(i = 0; i <= j; i++) {
+            if(Layer_404[i] != null) {
+                map_404.removeLayer(Layer_404[i]);
+                map_404.removeLayer(Layer_404_clone[ i ]);
+            }
+        }
+        Marker_count = 0;
+        Marker_LAT = new Array();
+        Marker_LON = new Array();
+        Marker_NAM = new Array();
+        Marker_LNK = new Array();
+        Marker_ICN = new Array();
+    }
+
+    function Leaflet_Marker_406() {     // マーカー保存（CSV形式）
+        for (i = 0; i <= (Marker_LON.length - 1); i++) {
+        if( !isNaN(Marker_LON[ i ]) ) {
+            while( (Marker_LON[ i ] * 1.0) < -180) {
+            Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) + 360;
+            }
+            while( (Marker_LON[ i ] * 1.0) > 180) {
+            Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) - 360;
+            }
+        }
+        }
+        if(Marker_LAT[ 0 ] == "LAT(deg.)") {
+        var CSV_content = [];
+        } else {
+        var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+        }
+        const aTag = document.createElement('a');
+        aTag.download = "CSV_Data.csv";
+        var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+        Temp = Marker_LAT.length;
+        for ( i = 0; i < Temp; i++ ) {
+            if( Marker_LAT[ i ] != "" && Marker_LON[ i ] != "" ) {
+              CSV_content = CSV_content + Marker_LAT[ i ] + "," + Marker_LON[ i ] + "," + Marker_NAM[ i ] + "," + Marker_LNK[ i ] + ",\r\n";
+            }
+          }
+        var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+        if(window.navigator.msSaveBlob) {
+             window.navigator.msSaveBlob(blob, aTag.download);                  // for IE
+          } else if (window.URL && window.URL.createObjectURL) {
+            aTag.href = window.URL.createObjectURL(blob);                   // for FireFox
+            document.body.appendChild(aTag);
+            aTag.click();
+            document.body.removeChild(aTag);
+          } else if (window.webkitURL && window.webkitURL.createObject) {
+            aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);     // for Chrome
+            aTag.click();
+          } else {
+            alert("保存に失敗しました！");
+          }
+    }
+
+    function Leaflet_Marker_407() {     // マーカー読込（CSV形式）
+        Dialog_002();
+    }
+
+    function Marker_setting() {     // マーカー設定
+        Temp_LAT = Marker_LAT[ Temp ] * 1.0;
+        Temp_LON = Marker_LON[ Temp ] * 1.0;
+        Temp_NAM = Marker_NAM[ Temp ];
+        Temp_LNK = Marker_LNK[ Temp ];
+        Temp_ICN = Marker_ICN[ Temp ];
+        Temp_ID = Marker_ID[ Temp ];
+        Temp_Drag_flag = Marker_Drag_flag[ Temp ]
+        Temp_Drag_info = Marker_Drag_info[ Temp ]
+        Set_Link =" ";
+        if(Temp_LNK != undefined ) {
+            if( String( Temp_LNK ).length > 5 ) {
+            Set_Link = "<a href= '" + Temp_LNK + "' target='_blank'> " + Temp_NAM + "情報にリンク</a>";
+            }
+        }
+    }
+
+    function Marker_set() {         // マーカー設置
+      if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+        if( (Temp_LAT !== undefined) || (Temp_LAT !== "") ) {
+        if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+            Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+            {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+             "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+             Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+            Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+            if(Temp_LON >= 0) {
+            Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+                {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+             "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+             Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+            Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+            } else {
+            Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+                {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+             "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+             Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+            Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+            }
+        }
+        }
+      }
+    }
+
+    function onMarkerOpen() {       // マーカーをクリックした時に表示する削除ボタンと変更ボタン
+        var tempMarker = this;
+        SelectedID = tempMarker.options.id;
+        $(".marker-delete-button:visible").click(function () {
+        Marker_DEL(tempMarker);
+        });
+        $(".marker-change-button:visible").click(function () {
+        Dialog_001();
+        });
+    }
+
+    function Change_Marker() {      // 変更ボタン押下時の処理
+        for(i = 0; i <= Marker_count; i++) {
+        if(SelectedID == Marker_ID[ i ] ) {
+            Marker_NAM[ i ] = Set_Text;
+            Marker_ICN[ i ] = L.icon({
+                iconUrl: Icon_Url,
+                iconSize: [Icon_W, Icon_H],
+                iconAnchor : [Icon_AW, Icon_AH],
+                popupAnchor: [Icon_PW, Icon_PH]
+            });
+        }
+        }
+        Marker_Refresh();
+    }
+
+    function Marker_DEL(tempMarker) {   // 削除ボタン押下時の処理
+        var k = 0;
+        Marker_flag = 0;
+        Marker_LAT[ Marker_count + 1 ] = "";
+        Marker_LON[ Marker_count + 1 ] = "";
+        Marker_NAM[ Marker_count + 1 ] = "";
+        Marker_LNK[ Marker_count + 1 ] = "";
+        Marker_ICN[ Marker_count + 1 ] = "";
+        Marker_ID[ Marker_count + 1 ] = "";
+        SelectedID = tempMarker.options.id;
+        for(i = 0; i <= Marker_count; i++) {
+            if(SelectedID == Marker_ID[ i ] ) {
+                for(k = i; k <= Marker_count; k++) {
+                    Marker_LAT[ k ] = Marker_LAT[ k + 1 ];
+                    Marker_LON[ k ] = Marker_LON[ k + 1 ];
+                    Marker_NAM[ k ] = Marker_NAM[ k + 1 ];
+                    Marker_LNK[ k ] = Marker_LNK[ k + 1 ];
+                    Marker_ICN[ k ] = Marker_ICN[ k + 1 ];
+                    Marker_ID[ k ] = Marker_ID[ k + 1 ];
+                    Marker_Drag_flag[ k ] = Marker_Drag_flag[ k + 1 ];
+                    Marker_Drag_info[ k ] = Marker_Drag_info[ k + 1 ];
+                }
+            }
+        }
+        SelectedID = null;
+        Marker_count = Marker_count - 1;
+        Marker_Refresh();
+    }
+
+    function Marker_Refresh() {     // マーカー再表示
+        var j = Layer_404.length - 1;
+        for(i = 0; i <= j; i++) {
+            if(Layer_404[ i ] != null) {
+            map_404.removeLayer(Layer_404[ i ]);
+            map_404.removeLayer(Layer_404_clone[ i ]);
+            }
+        }
+        for (i = 0; i <= Marker_count - 1; i++)
+        {
+            Temp = i;
+            Marker_setting();
+            Marker_set();
+            Layer_404[ Temp ] = Temp_shape;
+            Layer_404[ Temp ].addTo(map_404);
+            Layer_404_clone[ Temp ] = Temp_shape_clone;
+            Layer_404_clone[ Temp ].addTo(map_404);
+        }
+    }
+
+    function Dragging() {           // マーカーをドラッグ時の位置取得
+        ClickLat = this._latlng.lat;
+        ClickLon = this._latlng.lng;
+        SelectedID = this.options.id;
+        for(i = 0; i <= Marker_count; i++) {
+            if(SelectedID == Marker_ID[ i ] ) {
+                Marker_LAT[ i ] = ClickLat;
+                Marker_LON[ i ] = ClickLon;
+            }
+        }
+        Marker_Refresh();
+        SelectedID = null;
+    }
+
+    function CSV_Markers() {        // CSVデータを表示
+        for (i = 0; i <= (Data_CSV.length - 1); i++) {
+        if((Data_CSV[i][0] * 1.0) > 90) {
+            Data_CSV[i][0] = 90;
+        }
+        if((Data_CSV[i][0] * 1.0) < -90) {
+            Data_CSV[i][0] = -90;
+        }
+        while( (Data_CSV[i][1] * 1.0) < -180) {
+            Data_CSV[i][1] = Data_CSV[i][1] * 1.0 + 360;
+        }
+        while( (Data_CSV[i][1] * 1.0) > 180) {
+            Data_CSV[i][1] = Data_CSV[i][1] * 1.0 - 360;
+        }
+        }
+        for (i = 0; i <= (Data_CSV.length - 1); i++) {
+        Marker_LAT[ Marker_count ] = Data_CSV[i][0];
+        Marker_LON[ Marker_count ] = Data_CSV[i][1];
+        Marker_NAM[ Marker_count ] = Data_CSV[i][2];
+        Marker_LNK[ Marker_count ] = Data_CSV[i][3];
+        Marker_ICN[ Marker_count ] = L.icon({
+            iconUrl: Icon_Url,
+            iconSize: [Icon_W, Icon_H],
+            iconAnchor : [Icon_AW, Icon_AH],
+            popupAnchor: [Icon_PW, Icon_PH]
+        });
+        Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+        Marker_Drag_flag[ Marker_count ] = false;
+        Marker_Drag_info[ Marker_count ] = "移動出来ません。";
+        if( Data_CSV[i][0] != "" ) {
+            if( !isNaN( Data_CSV[i][0] ) ) {
+            Temp = Marker_count;
+            Marker_setting();
+            Marker_set();
+            Layer_404[ Temp ] = Temp_shape;
+            Layer_404[ Temp ].addTo(map_404);
+            Layer_404_clone[ Temp ] = Temp_shape_clone;
+            Layer_404_clone[ Temp ].addTo(map_404);
+            }
+        }
+        Marker_count = Marker_count + 1;
+        Marker_ID_count = Marker_ID_count + 1;
+        }
+    }
+
+    </script>
+</head>
+<body onload="init()">
+<nav id="menu-wrap" style="z-index: 1000;">  
+    <ul id="menu" style="width: 98%;">
+        <li><a href="#">マーカー設定</a>
+        <ul>
+            <li><a href="#" onclick = "Dialog_001()">マーカーのスタイル設定</a></li>
+            <li><a href="#" onclick = "Leaflet_Marker_400()">マーカー単独設置 </a></li>
+            <li><a href="#" onclick = "Leaflet_Marker_402()">マーカー連続設置 </a></li>
+            <li><a href="#" onclick = "Leaflet_Marker_404()">マーカー連続設置終了 </a></li>
+            <li><a href="#" onclick = "Leaflet_Marker_405()">マーカー全消去 </a></li>
+            <li><a href="#" onclick = "Leaflet_Marker_406()">マーカー保存（CSV形式） </a></li>
+            <li><a href="#" onclick = "Leaflet_Marker_407()">マーカー読込（CSV形式） </a></li>
+        </ul>
+        </li>
+    </ul>
+</nav>
+<div id="map_Layer">
+    <div id="map_404" style="width: 100%; height: 400px; border: solid 1px"></div>
+　ここで使用しているアイコン素材は、<A HREF = "http://flat-icon-design.com/" target="_blank"> FLAT ICON DESIGN </A>および
+<A HREF = "http://icooon-mono.com/" target="_blank"> ICOON MONO </A>から取得しており、<BR>
+これらアイコン素材データの著作権は TopeconHeroes が保持しています。
+</div>
+</body>
+</html>

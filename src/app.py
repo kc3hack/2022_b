@@ -32,6 +32,6 @@ def upload_file():
 			return redirect(url_for('uploaded_file', filename=filename))
 		
 
-	return app.send_static_file('index.html')
+	return app.send_static_file('templates/index.html')
 
 app.run(port=5000, debug=True)

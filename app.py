@@ -4,7 +4,7 @@ from flask import Flask, request, redirect, url_for, send_from_directory
 import flask_cors
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = './imgs'
+UPLOAD_FOLDER = './img'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, static_folder='.', static_url_path='')

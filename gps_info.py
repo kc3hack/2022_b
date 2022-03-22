@@ -1,5 +1,6 @@
 from PIL import Image
 import PIL.ExifTags as ExifTags
+import glob
 
 def get_gps(fname):
     # open img files

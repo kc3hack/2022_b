@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 import PIL.ExifTags as ExifTags
 
@@ -39,8 +40,10 @@ def get_gps(fname):
     return lat, lon
 
 if __name__ == "__main__":
-    try:
-        lat, lon = get_gps("./img/IMG_6269.jpg")
+    img_files = os.listdir('./img')
+    print(img_files)
+    for i in range(0, len(img_files)):
+        img_files[i] = './img/' + img_files[i]
+        lat, lon = get_gps(img_files[i])
         print(lat, lon)
-    except:
-        print("No GPS info")
+    print(img_files)

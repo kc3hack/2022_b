@@ -8,7 +8,7 @@ UPLOAD_FOLDER = './imgs'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
 
 app = Flask(__name__, static_folder='.', static_url_path='')
-app.config[UPLOAD_FOLDER] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allwed_file(filename):
     return '.' in filename and \
@@ -34,4 +34,7 @@ def upload_file():
 
 	return app.send_static_file('index.html')
 
+@app.route('/imgs/<filename>')
+def uploaded_file(filename):
+	return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 app.run(port=5000, debug=True)

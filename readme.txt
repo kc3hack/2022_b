@@ -10,7 +10,7 @@ src/ ディレクトリにて
     export FLASK_ENV=development
 と打ち込んで環境変数の値を変更してください。
 
-Windows（コマンドプロンプト）の使い方
+環境変数の確認の仕方（Windowsは正しいか分かりません）
     ## Windowsの場合（コマンドプロンプト））
     $ @cd
     2022_b/

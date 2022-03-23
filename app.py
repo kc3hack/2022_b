@@ -1,8 +1,8 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
-import flask_cors
 from werkzeug.utils import secure_filename
 import gps_info
+from geojson import Point, Feature, FeatureCollection
 
 UPLOAD_FOLDER = './img'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
@@ -32,8 +32,11 @@ def upload_file():
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			fname = './img/' + filename
 			gpsdata = gps_info.get_gps(fname)
-			print(gpsdata)
-			return redirect(request.url)
+			my_point = Point((float(gpsdata[1]), float(gpsdata[0])))
+			my_feature = Feature(geometry=my_point)
+			my_feature_collection = FeatureCollection(my_feature)
+			print (my_feature_collection)
+			return redirect(request.url), my_feature_collection
 	
 	return render_template('index.html')
 

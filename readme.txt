@@ -31,3 +31,7 @@ src/ ディレクトリにて
 これらを確認した状態で
 $ flask run
 すると動作すると思います！
+
+(追記)
+$ pip install geojson
+も必要です。

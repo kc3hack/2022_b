@@ -37,10 +37,3 @@ def get_gps(fname):
 
 
     return lat, lon
-
-if __name__ == "__main__":
-    try:
-        lat, lon = get_gps("./img/IMG_6269.jpg")
-        print(lat, lon)
-    except:
-        print("No GPS info")

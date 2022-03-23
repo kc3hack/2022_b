@@ -1,6 +1,5 @@
 from PIL import Image
 import PIL.ExifTags as ExifTags
-import glob
 
 def get_gps(fname):
     # open img files
@@ -23,9 +22,9 @@ def get_gps(fname):
     # Get latitude and longitude information
     def conv_deg(v):
         # Converting fractions to degrees
-        d = float(v[0][0]) / float(v[0][1])
-        m = float(v[1][0]) / float(v[1][1])
-        s = float(v[2][0]) / float(v[2][1])
+        d = float(v[0])
+        m = float(v[1])
+        s = float(v[2])
         return d + (m / 60.0) + (s / 3600.0)
 
     lat = conv_deg(gps["GPSLatitude"])

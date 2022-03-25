@@ -7,7 +7,7 @@ import sqlite3
 import json
 
 UPLOAD_FOLDER = './img'
-ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
+ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'heic', 'HEIC'])  # iphoneの標準はHEIC
 DATABASE = 'database.db'
 
 app = Flask(__name__, static_folder='.', static_url_path='')
@@ -35,18 +35,18 @@ def upload_file():
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			fname = './img/' + filename
 			gpsdata = gps_info.get_gps(fname)
-			my_point = Point((float(gpsdata[1]), float(gpsdata[0])))
-			my_feature = Feature(geometry=my_point)
-			my_feature_collection = FeatureCollection(my_feature)
-			mfc = json.dumps(my_feature_collection)
-			con = sqlite3.connect(DATABASE)
-			cur = con.cursor()
-			cur.execute("CREATE TABLE IF NOT EXISTS placedata(place)")
-			cur.execute("INSERT INTO placedata VALUES(?)", [mfc])
-			con.commit()
-			sql = """SELECT * FROM placedata"""
-			cur.execute(sql)
-			con.close()
+			# my_point = Point((float(gpsdata[1]), float(gpsdata[0])))
+			# my_feature = Feature(geometry=my_point)
+			# my_feature_collection = FeatureCollection(my_feature)
+			# mfc = json.dumps(my_feature_collection)
+			# con = sqlite3.connect(DATABASE)
+			# cur = con.cursor()
+			# cur.execute("CREATE TABLE IF NOT EXISTS placedata(place)")
+			# cur.execute("INSERT INTO placedata VALUES(?)", [mfc])
+			# con.commit()
+			# sql = """SELECT * FROM placedata"""
+			# cur.execute(sql)
+			# con.close()
 			return redirect(request.url)
 	
 	return render_template('index.html')

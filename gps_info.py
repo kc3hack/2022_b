@@ -1,39 +1,38 @@
 from PIL import Image
-import PIL.ExifTags as ExifTags
+from PIL.ExifTags import TAGS, GPSTAGS
+
+# Get latitude and longitude information
+def conv_deg(v):
+    # Converting fractions to degrees
+    d = float(v[0][0]) / float(v[0][1])
+    m = float(v[1][0]) / float(v[1][1])
+    s = float(v[2][0]) / float(v[2][1])
+    return d + (m / 60.0) + (s / 3600.0)
 
 def get_gps(fname):
     # open img files
     im = Image.open(fname)
 
     # Get exif information in dictionary form
-    exif = {
-        ExifTags.TAGS[k]: v
-        for k, v in im._getexif().items()
-        if k in ExifTags.TAGS
+    exif = { 
+        TAGS[key]: value  for key, value in im._getexif().items()  if key in TAGS 
     }
 
     # get gps info
     gps_tags = exif["GPSInfo"]
-    gps = {
-        ExifTags.GPSTAGS.get(t, t): gps_tags[t]
-        for t in gps_tags
+    gps = { 
+        GPSTAGS.get(t, t): gps_tags[t]  for t in gps_tags 
     }
-
-    # Get latitude and longitude information
-    def conv_deg(v):
-        # Converting fractions to degrees
-        d = float(v[0][0]) / float(v[0][1])
-        m = float(v[1][0]) / float(v[1][1])
-        s = float(v[2][0]) / float(v[2][1])
-        return d + (m / 60.0) + (s / 3600.0)
 
     lat = conv_deg(gps["GPSLatitude"])
     lat_ref = gps["GPSLatitudeRef"]
-    if lat_ref != "N": lat = 0 - lat
+    if lat_ref != "N":
+        lat = 0 - lat
 
     lon = conv_deg(gps["GPSLongitude"])
     lon_ref = gps["GPSLongitudeRef"]
-    if lon_ref != "E": lon = 0 - lon
+    if lon_ref != "E":
+        lon = 0 - lon
 
 
     return lat, lon

@@ -3,9 +3,12 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory,
 from werkzeug.utils import secure_filename
 import gps_info
 from geojson import Point, Feature, FeatureCollection
+import sqlite3
+import json
 
 UPLOAD_FOLDER = './img'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
+DATABASE = 'database.db'
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -35,8 +38,16 @@ def upload_file():
 			my_point = Point((float(gpsdata[1]), float(gpsdata[0])))
 			my_feature = Feature(geometry=my_point)
 			my_feature_collection = FeatureCollection(my_feature)
-			print (my_feature_collection)
-			return redirect(request.url), my_feature_collection
+			mfc = json.dumps(my_feature_collection)
+			con = sqlite3.connect(DATABASE)
+			cur = con.cursor()
+			cur.execute("CREATE TABLE IF NOT EXISTS placedata(place)")
+			cur.execute("INSERT INTO placedata VALUES(?)", [mfc])
+			con.commit()
+			sql = """SELECT * FROM placedata"""
+			cur.execute(sql)
+			con.close()
+			return redirect(request.url)
 	
 	return render_template('index.html')
 

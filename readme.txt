@@ -10,7 +10,7 @@ src/ ディレクトリにて
     export FLASK_ENV=development
 と打ち込んで環境変数の値を変更してください。
 
-環境変数の確認の仕方（Windowsは正しいか分かりません）
+# 環境変数の確認の仕方（Windowsは正しいか分かりません）
     ## Windowsの場合（コマンドプロンプト））
     $ @cd
     2022_b/
@@ -26,6 +26,12 @@ src/ ディレクトリにて
     app
     $ echo $FLASK_ENV
     development
+
+# 扱うパッケージ
+Flask
+jinja2
+geojson
+Pillow
 
 
 これらを確認した状態で

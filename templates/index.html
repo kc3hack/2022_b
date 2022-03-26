@@ -2,14 +2,34 @@
 {% block main %}
 <h1>ゴミ箱地図</h1>
 <div id="mapid"></div>
-
+<h1>
+    <a href="">
+        <img src="../logo/220_20220326204201.png" width="400" hight="200" alt="bloom">
+    </a>
+</h1>
+<h5 align="right">
+    <span>画像をアップロードしてピンを立てる</span>
+    <form method="POST" enctype = "multipart/form-data">
+        <p>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+        </p>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</h5>
 <script type="text/javascript">
     var tf = {{ Up | tojson }}; //グローバル変数として定義する。
-    var POSES = {{ poses | tojson }}
-    var LonTxt = document.getElementById("lon")
+    var POSES = {{ poses | tojson }};
+    var LonTxt = document.getElementById("lon");
 
-    alert(place)
-    alert(POSES.length)
+    alert(place);
+    alert(POSES.length);
 </script>
 
 <script src="./static/js/map.js"></script>
@@ -24,22 +44,6 @@
 
     alert(place)
 </script-->
-
-<br>
-<h2>file upload</h2>
-<form method="POST" enctype = "multipart/form-data">
-    <p>
-        <input type=file name=file>
-        <input type=submit value=Upload>
-    </p>
-</form>
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <p class="{{ category }}">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 
 <!--
 <p id="test">初めてのJavaScript勉強中だよ！</p>

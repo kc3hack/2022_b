@@ -8,6 +8,18 @@ var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 });
 
 tileLayer.addTo(map);
+
+
+// Control OSM Geocoder
+var option = {
+  position: 'topright',
+  text: '検索',
+  placeholder: '検索条件を入力してください。'
+}
+var osmGeocoder = new L.Control.OSMGeocoder(option);
+map.addControl(osmGeocoder);
+
+
 var features = [];
 
 var place = [];

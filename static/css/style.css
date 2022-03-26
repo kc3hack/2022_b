@@ -1,1 +1,41 @@
 #mapid { height: 500px; }
+
+.char1 { font-size:132%; }
+
+.char2 { font-weight:normal; }
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	width:100%;
+	border-collapse: separate;
+	border-spacing: 10px;
+        table-layout: fixed;
+        white-space: nowrap;
+}
+
+.td_style1{
+        float:center;
+	width:40%;
+	color:#000000;
+	vertical-align:top;
+	border-radius: 10px;
+}
+
+.td_style2{
+        float:center;
+        text-align:center;
+	width:30%;
+	color:#000000;
+	vertical-align:top;
+	border-radius: 10px;
+}
+
+.td_style3{
+        float:center;
+        text-align:center;
+	width:30%
+	color:#000000;
+	vertical-align:top;
+	border-radius: 10px;
+}

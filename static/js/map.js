@@ -10,15 +10,21 @@ var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 tileLayer.addTo(map);
 var features = [];
 
-//var place = [{
+var place = [{
   // "name": "東京ミッドタウン",
-//  "lat": "35.66572",
-//  "long": "139.73100"
-//}, {
+  "lat": "35.66572",
+  "long": "139.73100"
+}, {
   // "name": "サントリー美術館",
-//  "lat": "35.6662186",
-//  "long": "139.7303961"
-//  },]
+  "lat": "35.6662186",
+  "long": "139.7303961"
+}, ]
+
+//alert(POSES[0]["lat"])
+for (var i = 0; i < POSES.length; i++) {
+  place.push({"lat": String(POSES[i]["lat"]), "long": String(POSES[i]["long"])})
+}
+
 
 // GeoJSON形式で複数個のマーカーを設定する
 for (var i = 0; i < place.length; i++) {

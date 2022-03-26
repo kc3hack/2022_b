@@ -3,7 +3,7 @@
 [![KC3Hack 2022](https://kc3.me/hack/wp-content/uploads/2022/01/kc3hack2022ogp@2x.png)](https://kc3.me/hack)
 
 ## プロダクト名
-![ロゴ](.static/img/logo/220_20220326204201.png) 
+![ロゴ](static/logo/220_20220326204201.png) 
 
 ## 選んだSDGsの目標
 11:住み続けられるまちづくりを

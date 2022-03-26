@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 {% block main %}
-<h1>ゴミ箱地図</h1>
-<div id="mapid"></div>
 <h1>
     <a href="">
         <img src="../logo/220_20220326204201.png" width="400" hight="200" alt="bloom">
@@ -23,6 +21,7 @@
         {% endif %}
     {% endwith %}
 </h5>
+<div id="mapid"></div>
 <script type="text/javascript">
     var tf = {{ Up | tojson }}; //グローバル変数として定義する。
     var POSES = {{ poses | tojson }};

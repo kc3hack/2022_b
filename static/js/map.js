@@ -10,27 +10,27 @@ var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 tileLayer.addTo(map);
 var features = [];
 
-var place = [{
-  // "name": "東京ミッドタウン",
-  "lat": "35.66572",
-  "long": "139.73100"
-}, {
-  // "name": "サントリー美術館",
-  "lat": "35.6662186",
-  "long": "139.7303961"
-}, ]
+var place = [];
 
 //alert(POSES[0]["lat"])
 for (var i = 0; i < POSES.length; i++) {
   place.push({"lat": String(POSES[i]["lat"]), "long": String(POSES[i]["long"])})
 }
 
+var PincIco = L.icon({
+  iconUrl: '../static/ico/pinkpin.png',
+  iconRetinaUrl: '../static/ico/pinkpin.png',
+  iconSize: [40, 60],
+  iconAnchor: [25, 50],
+  popupAnchor: [0, -50],
+});
 
 // GeoJSON形式で複数個のマーカーを設定する
 for (var i = 0; i < place.length; i++) {
   features.push({ 
     "type": "Feature",
     "properties": {
+      "icon":PincIco
       //"name": place[i].name
     },
     "geometry": {
@@ -54,5 +54,17 @@ L.geoJson(features, {
         alert('ここにゴミ捨てるの?');
       });
     }
-  }
+  },
+  // アイコンの指定があれば指定したアイコンを設置する
+
+  pointToLayer: function(feature, latlng) {
+		   // アイコンの指定があれば指定したアイコンを設置する
+		if(feature.properties.icon){
+      //alert(1) 1があるためアイコンが指定はされている。
+			return L.marker(latlng, {icon: feature.properties.icon});
+		}else{
+      //alert(2)
+			return L.marker(latlng);
+		}
+	}
 }).addTo(map);

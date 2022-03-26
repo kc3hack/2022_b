@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import gps_info
 import sqlite3
 
-UPLOAD_FOLDER = './img'
+UPLOAD_FOLDER = './static/img'
 ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
 DATABESE = 'database.db' #定数化
 
@@ -70,7 +70,7 @@ def upload_file():
 			Upload_File = 1
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			fname = './img/' + filename
+			fname = './static/img/' + filename
 			gpsdata = gps_info.get_gps(fname)
 			#print(round(gpsdata[0], 7)) #小数点以下第8位を四捨五入する。
 			#print(round(gpsdata[1], 7)) #小数点以下第8位を四捨五入する。

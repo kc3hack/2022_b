@@ -2,7 +2,7 @@
 {% block main %}
 <h1>
     <a href="">
-        <img src="../logo/220_20220326204201.png" width="400" hight="200" alt="bloom">
+        <img src="../static/logo/220_20220326204201.png" width="400" hight="200" alt="bloom">
     </a>
 </h1>
 <h5 align="right">
@@ -10,7 +10,7 @@
     <form method="POST" enctype = "multipart/form-data">
         <p>
             <input type=file name=file>
-            <input type=submit value=Upload>
+            <input type=submit value=送信>
         </p>
     </form>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -31,7 +31,7 @@
     alert(POSES.length)
 </script>
 
-<script src="./static/js/map.js"></script>
+<script src="../static/js/map.js"></script>
 
 <!--script type="text/javascript" src="{{ url_for('static', filename='map.js') }}"></script-->
 

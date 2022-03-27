@@ -27,7 +27,7 @@
 - Flask
 - jinja2
 - Sqlite3
-- PIL
+- Pillow
 - Leaflet
 - Leaflet Control OSM Geocoder
 
